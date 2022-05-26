@@ -1,0 +1,49 @@
+// Celsius - Fahrenheit conversion
+use std::io;
+use std::io::prelude::*;
+
+static DEGREE: char = '°';
+
+fn main() {
+    loop {
+        println!("1. Celsius to Fahrenheit\n2. Fahrenheit to Celsius");
+        print!("Option: ");
+        io::stdout().flush().unwrap();
+
+        let mut input1 = String::new();
+        io::stdin().read_line(&mut input1).unwrap();
+
+        let option = input1.trim();
+
+        if option != "1" && option != "2" {
+            println!("Invalid option\n");
+            break;
+        }
+
+        print!("Value to convert: ");
+        io::stdout().flush().unwrap();
+
+        let mut input2 = String::new();
+        io::stdin().read_line(&mut input2).unwrap();
+
+        let value_to_convert: f32 = input2.trim().parse().unwrap();
+
+        if option == "1" {
+            cel_to_far(value_to_convert);
+            break;
+        } else {
+            far_to_cel(value_to_convert);
+            break;
+        }
+    }
+}
+
+fn cel_to_far(cel: f32) {
+    let far = cel * 9.0 / 5.0 + 32.0;
+    println!("{}{}C = {}{}F", cel, DEGREE, far, DEGREE);
+}
+
+fn far_to_cel(far: f32) {
+    let cel = far - 32.0 * 5.0 / 9.0;
+    println!("{}{}F = {}{}C", far, DEGREE, cel, DEGREE);
+}
