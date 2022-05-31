@@ -1,49 +1,40 @@
-// Celsius - Fahrenheit conversion
-use std::io;
-use std::io::prelude::*;
+use std::env;
+use std::str::FromStr;
 
 static DEGREE: char = '°';
 
 fn main() {
-    loop {
-        println!("1. Celsius to Fahrenheit\n2. Fahrenheit to Celsius");
-        print!("Option: ");
-        io::stdout().flush().unwrap();
+    // Collect command line arguments
+    let args: Vec<String> = env::args().collect();
 
-        let mut input1 = String::new();
-        io::stdin().read_line(&mut input1).unwrap();
+    // If there are not 2 arguments, print message and end
+    if args.len() != 3 {
+        invalid_input();
+        return;
+    }
 
-        let option = input1.trim();
+    // All I know is that this catches args[1] if it is not a number
+    if let Err(e) = f64::from_str(args[1].trim()) {
+        invalid_input();
+        return;
+    }
 
-        if option != "1" && option != "2" {
-            println!("Invalid option\n");
-            break;
-        }
+    let num_convert_from: f32 = args[1].trim().parse().unwrap();
+    let metric_convert_to = args[2].to_uppercase();
 
-        print!("Value to convert: ");
-        io::stdout().flush().unwrap();
-
-        let mut input2 = String::new();
-        io::stdin().read_line(&mut input2).unwrap();
-
-        let value_to_convert: f32 = input2.trim().parse().unwrap();
-
-        if option == "1" {
-            cel_to_far(value_to_convert);
-            break;
-        } else {
-            far_to_cel(value_to_convert);
-            break;
-        }
+    // Make sure either C or F was specified, otherwise print message and end
+    if metric_convert_to == "C" {
+        let celsius = (num_convert_from - 32.0) * 5.0 / 9.0;
+        println!("{}{}F = {}{}C", num_convert_from, DEGREE, celsius, DEGREE);
+    } else if metric_convert_to == "F" {
+        let fahren = num_convert_from * 9.0 / 5.0 + 32.0;
+        println!("{}{}C = {}{}F", num_convert_from, DEGREE, fahren, DEGREE);
+    } else {
+        invalid_input();
+        return;
     }
 }
 
-fn cel_to_far(cel: f32) {
-    let far = cel * 9.0 / 5.0 + 32.0;
-    println!("{}{}C = {}{}F", cel, DEGREE, far, DEGREE);
-}
-
-fn far_to_cel(far: f32) {
-    let cel = far - 32.0 * 5.0 / 9.0;
-    println!("{}{}F = {}{}C", far, DEGREE, cel, DEGREE);
+fn invalid_input() {
+    println!("Usage: convert-cf [value to convert from] [C/F (to convert to)]");
 }
