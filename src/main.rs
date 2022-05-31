@@ -14,7 +14,7 @@ fn main() {
     }
 
     // All I know is that this catches args[1] if it is not a number
-    if let Err(e) = f64::from_str(args[1].trim()) {
+    if let Err(_e) = f64::from_str(args[1].trim()) {
         invalid_input();
         return;
     }
