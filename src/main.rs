@@ -25,10 +25,10 @@ fn main() {
     // Make sure either C or F was specified, otherwise print message and end
     if metric_convert_to == "C" {
         let celsius = (num_convert_from - 32.0) * 5.0 / 9.0;
-        println!("{}{}F = {}{}C", num_convert_from, DEGREE, celsius, DEGREE);
+        println!("{num_convert_from}{DEGREE}F = {celsius}{DEGREE}C");
     } else if metric_convert_to == "F" {
         let fahren = num_convert_from * 9.0 / 5.0 + 32.0;
-        println!("{}{}C = {}{}F", num_convert_from, DEGREE, fahren, DEGREE);
+        println!("{num_convert_from}{DEGREE}C = {fahren}{DEGREE}F");
     } else {
         invalid_input();
         return;
