@@ -13,26 +13,26 @@ fn main() {
         return;
     }
 
-    // All I know is that this catches args[1] if it is not a number
+    // Try parse args[1], if it causes a ParseFloatError,
+    // go to invalid_input(), otherwise continue like normal
     if let Err(_e) = f64::from_str(args[1].trim()) {
         invalid_input();
         return;
     }
 
-    let num_convert_from: f32 = args[1].trim().parse().unwrap();
-    let metric_convert_to = args[2].to_uppercase();
+    // TODO print final result properly
+    println!(
+        "{}",
+        calculate(args[1].trim().parse().unwrap(), args[2].to_uppercase())
+    );
+}
 
-    // Make sure either C or F was specified, otherwise print message and end
-    if metric_convert_to == "C" {
-        let celsius = (num_convert_from - 32.0) * 5.0 / 9.0;
-        println!("{num_convert_from}{DEGREE}F = {celsius}{DEGREE}C");
-    } else if metric_convert_to == "F" {
-        let fahren = num_convert_from * 9.0 / 5.0 + 32.0;
-        println!("{num_convert_from}{DEGREE}C = {fahren}{DEGREE}F");
-    } else {
-        invalid_input();
-        return;
-    }
+fn calculate(value_to_convert_from: f32, metric_to_convert_to: String) -> f32 {
+    match metric_to_convert_to.as_str() {
+        "C" => return (value_to_convert_from - 32.0) * 5.0 / 9.0,
+        "F" => return value_to_convert_from * 9.0 / 5.0 + 32.0,
+        _ => invalid_input(),
+    };
 }
 
 fn invalid_input() {
