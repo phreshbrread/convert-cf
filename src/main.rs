@@ -20,6 +20,8 @@ fn main() {
         return;
     }
 
+    // TODO check if value is C or F before calculate
+
     // TODO print final result properly
     println!(
         "{}",
