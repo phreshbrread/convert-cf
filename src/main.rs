@@ -29,7 +29,6 @@ fn main() {
         return;
     }
 
-    // TODO print final result properly
     let result: f32 = calculate(args[1].trim().parse().unwrap(), args[2].to_uppercase());
 
     match args[2].to_uppercase().as_str() {
